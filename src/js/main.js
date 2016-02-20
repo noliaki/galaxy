@@ -50,7 +50,20 @@ let goalPoint = {
 let dist = {
   current : 0,
   goal : 0
-}
+};
+
+let goalRotate = {
+  x : 0,
+  y : 0,
+  z : 0
+};
+
+let mouseDownPoint = {
+  x : 0,
+  y : 0
+};
+
+let isMouseDown = false;
 
 
 
@@ -128,19 +141,7 @@ const createBlurCircle = () => {
   return canvas.toDataURL();
 }
 
-let goalRotate = {
-  x : 0,
-  y : 0,
-  z : 0
-};
 
-let mouseDownPoint = {
-  x : 0,
-  y : 0
-};
-
-
-let isMouseDown = false;
 
 const render = function() {
   colorHSL.H += 0.001;
@@ -160,13 +161,16 @@ const render = function() {
   // CAMERA.position.z += (goalPoint.z - CAMERA.position.z) * EASE;
   // CAMERA.position.x = dist * Math.cos(angle / Math.PI);
   // CAMERA.position.y = dist * Math.cos(angle / Math.PI);
-  CAMERA.position.z += (goalPoint.z - CAMERA.position.z) * EASE;
 
   SCENE.rotation.x += (goalRotate.x - SCENE.rotation.x) * EASE;
   SCENE.rotation.y += (goalRotate.y - SCENE.rotation.y) * EASE;
-  console.log(CAMERA.position)
 
+  CAMERA.position.z += (goalPoint.z - CAMERA.position.z) * EASE;
   CAMERA.lookAt(ORIGIN_POINT);
+
+  STAR_POINT.rotation.x += 0.001;
+  STAR_POINT.rotation.y -= 0.0001;
+  STAR_POINT.rotation.z += 0.0003;
 
   RENDERER.render(SCENE, CAMERA);
 
@@ -235,5 +239,13 @@ document.addEventListener('mouseup', (event) => {
 
 const calcPoint = (x, y) => {
   goalRotate.y += (x - mouseDownPoint.x) / 1000;
-  goalRotate.x += (y - mouseDownPoint.y) / 1000;
+  goalRotate.x -= (y - mouseDownPoint.y) / 1000;
+
+  if(goalRotate.x > PI / 2) {
+    goalRotate.x = PI / 2;
+  }
+
+  if(goalRotate.x < -PI / 2) {
+    goalRotate.x = -PI / 2;
+  }
 };

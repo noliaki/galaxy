@@ -69,6 +69,7 @@
 	// import module
 	//
 
+
 	var EASE = 0.05;
 	var PI = Math.PI;
 
@@ -109,6 +110,19 @@
 	  current: 0,
 	  goal: 0
 	};
+
+	var goalRotate = {
+	  x: 0,
+	  y: 0,
+	  z: 0
+	};
+
+	var mouseDownPoint = {
+	  x: 0,
+	  y: 0
+	};
+
+	var isMouseDown = false;
 
 	// ------------------------------------
 	// window EVENT
@@ -170,19 +184,6 @@
 	  return canvas.toDataURL();
 	};
 
-	var goalRotate = {
-	  x: 0,
-	  y: 0,
-	  z: 0
-	};
-
-	var mouseDownPoint = {
-	  x: 0,
-	  y: 0
-	};
-
-	var isMouseDown = false;
-
 	var render = function render() {
 	  colorHSL.H += 0.001;
 
@@ -201,13 +202,16 @@
 	  // CAMERA.position.z += (goalPoint.z - CAMERA.position.z) * EASE;
 	  // CAMERA.position.x = dist * Math.cos(angle / Math.PI);
 	  // CAMERA.position.y = dist * Math.cos(angle / Math.PI);
-	  CAMERA.position.z += (goalPoint.z - CAMERA.position.z) * EASE;
 
 	  SCENE.rotation.x += (goalRotate.x - SCENE.rotation.x) * EASE;
 	  SCENE.rotation.y += (goalRotate.y - SCENE.rotation.y) * EASE;
-	  console.log(CAMERA.position);
 
+	  CAMERA.position.z += (goalPoint.z - CAMERA.position.z) * EASE;
 	  CAMERA.lookAt(ORIGIN_POINT);
+
+	  STAR_POINT.rotation.x += 0.001;
+	  STAR_POINT.rotation.y -= 0.0001;
+	  STAR_POINT.rotation.z += 0.0003;
 
 	  RENDERER.render(SCENE, CAMERA);
 
@@ -262,7 +266,15 @@
 
 	var calcPoint = function calcPoint(x, y) {
 	  goalRotate.y += (x - mouseDownPoint.x) / 1000;
-	  goalRotate.x += (y - mouseDownPoint.y) / 1000;
+	  goalRotate.x -= (y - mouseDownPoint.y) / 1000;
+
+	  if (goalRotate.x > PI / 2) {
+	    goalRotate.x = PI / 2;
+	  }
+
+	  if (goalRotate.x < -PI / 2) {
+	    goalRotate.x = -PI / 2;
+	  }
 	};
 
 /***/ },
@@ -294,11 +306,11 @@
 
 	'use strict';
 
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
