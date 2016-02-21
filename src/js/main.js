@@ -3,6 +3,7 @@
 // require module
 // 
 const Three = require('three');
+const OrbitControls = require('three-orbit-controls')(Three);
 
 // ------------------------------------
 // import module
@@ -22,6 +23,8 @@ const SCENE         = new Three.Scene(),
       RENDERER      = new Three.WebGLRenderer(),
       ORIGIN_POINT  = new Three.Vector3(0, 0, 0),
       STAR_POINT    = new Three.Points();
+
+let controls;
 
 let winCenterPoint = () => {
   return {
@@ -165,12 +168,16 @@ const render = function() {
   SCENE.rotation.x += (goalRotate.x - SCENE.rotation.x) * EASE;
   SCENE.rotation.y += (goalRotate.y - SCENE.rotation.y) * EASE;
 
-  CAMERA.position.z += (goalPoint.z - CAMERA.position.z) * EASE;
+  // CAMERA.position.z += (goalPoint.z - CAMERA.position.z) * EASE;
   CAMERA.lookAt(ORIGIN_POINT);
 
   STAR_POINT.rotation.x += 0.001;
   STAR_POINT.rotation.y -= 0.0001;
   STAR_POINT.rotation.z += 0.0003;
+
+  console.log(controls)
+
+  controls.update();
 
   RENDERER.render(SCENE, CAMERA);
 
@@ -205,6 +212,12 @@ document.addEventListener('DOMContentLoaded', (event) => {
     }
   );
 
+  controls = new OrbitControls(CAMERA);
+  controls.enableDamping = true;
+  controls.dampingFactor = 0.2;
+  controls.rotateSpeed = 0.2;
+  controls.zoomSpeed = 0.2;
+
 
   RENDERER.render(SCENE, CAMERA);
   render();
@@ -212,30 +225,30 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
 }, false);
 
-document.addEventListener('wheel', (event) => {
-  event.preventDefault();
-  goalPoint.z += event.wheelDelta;
-}, false);
+// document.addEventListener('wheel', (event) => {
+//   event.preventDefault();
+//   goalPoint.z += event.wheelDelta;
+// }, false);
 
-document.addEventListener('mousedown', (event) => {
-  event.preventDefault();
-  isMouseDown = true;
-  mouseDownPoint.x = event.pageX;
-  mouseDownPoint.y = event.pageY;
-}, false);
+// document.addEventListener('mousedown', (event) => {
+//   event.preventDefault();
+//   isMouseDown = true;
+//   mouseDownPoint.x = event.pageX;
+//   mouseDownPoint.y = event.pageY;
+// }, false);
 
-document.addEventListener('mousemove', (event) => {
-  event.preventDefault();
-  if(!isMouseDown) {
-    return;
-  }
-  calcPoint(event.pageX, event.pageY);
-}, false);
+// document.addEventListener('mousemove', (event) => {
+//   event.preventDefault();
+//   if(!isMouseDown) {
+//     return;
+//   }
+//   calcPoint(event.pageX, event.pageY);
+// }, false);
 
-document.addEventListener('mouseup', (event) => {
-  event.preventDefault();
-  isMouseDown = false;
-}, false);
+// document.addEventListener('mouseup', (event) => {
+//   event.preventDefault();
+//   isMouseDown = false;
+// }, false);
 
 const calcPoint = (x, y) => {
   goalRotate.y += (x - mouseDownPoint.x) / 1000;
