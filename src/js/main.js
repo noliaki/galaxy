@@ -3,7 +3,7 @@
 // require module
 // 
 const Three = require('three');
-const OrbitControls = require('three-orbit-controls')(Three);
+const TrackballControls = require('three-trackballcontrols');
 
 // ------------------------------------
 // import module
@@ -169,13 +169,13 @@ const render = function() {
   SCENE.rotation.y += (goalRotate.y - SCENE.rotation.y) * EASE;
 
   // CAMERA.position.z += (goalPoint.z - CAMERA.position.z) * EASE;
-  CAMERA.lookAt(ORIGIN_POINT);
+  // CAMERA.lookAt(ORIGIN_POINT);
 
   STAR_POINT.rotation.x += 0.001;
   STAR_POINT.rotation.y -= 0.0001;
-  STAR_POINT.rotation.z += 0.0003;
+  STAR_POINT.rotation.z += 0.003;
 
-  console.log(controls)
+  console.log(CAMERA.position)
 
   controls.update();
 
@@ -187,7 +187,7 @@ const render = function() {
 
 document.addEventListener('DOMContentLoaded', (event) => {
 
-  CAMERA.position.z = 250;
+  CAMERA.position.z = -250;
 
   LIGHT.position.set(
     100,
@@ -212,11 +212,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
     }
   );
 
-  controls = new OrbitControls(CAMERA);
-  controls.enableDamping = true;
-  controls.dampingFactor = 0.2;
-  controls.rotateSpeed = 0.2;
-  controls.zoomSpeed = 0.2;
+  controls = new TrackballControls(CAMERA);
 
 
   RENDERER.render(SCENE, CAMERA);

@@ -1,25 +1,25 @@
 // =============================================
 // gulp | plug-in
 // 
-var gulp        = require('gulp'),
-    jade        = require('gulp-jade'),
-    sass        = require('gulp-sass'),
-    cssnext     = require('gulp-cssnext'),
-    imagemin    = require('gulp-imagemin'),
-    pngquant    = require('imagemin-pngquant'),
-    gutil       = require('gulp-util'),
-    rimraf      = require('rimraf'),
-    babel       = require('gulp-babel'),
-    plumber     = require('gulp-plumber'),
-    runSequence = require('run-sequence'),
-    uglify      = require('gulp-uglify'),
-    webpack     = require('webpack'),
-    browserSync = require('browser-sync').create();
+const gulp        = require('gulp'),
+      jade        = require('gulp-jade'),
+      sass        = require('gulp-sass'),
+      cssnext     = require('gulp-cssnext'),
+      imagemin    = require('gulp-imagemin'),
+      pngquant    = require('imagemin-pngquant'),
+      gutil       = require('gulp-util'),
+      rimraf      = require('rimraf'),
+      babel       = require('gulp-babel'),
+      plumber     = require('gulp-plumber'),
+      runSequence = require('run-sequence'),
+      uglify      = require('gulp-uglify'),
+      webpack     = require('webpack'),
+      browserSync = require('browser-sync').create();
 
 // =============================================
 // path
 // 
-var path = {
+const path = {
   src   : './src',
   build : './build'
 };
@@ -50,7 +50,7 @@ gulp.task('jade', () => {
   return gulp.src([path.src + '/**/*.jade', '!' + path.src + '/**/_*'])
          .pipe(plumber())
          .pipe(jade({
-         pretty: true,
+           pretty: true,
            basedir: path.src
          }))
          .pipe(gulp.dest(path.build))
