@@ -206,7 +206,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
   let earth = new Earth(Three);
   earth.textureLoad(
-    '/img/oro.png',
+    'img/oro.png',
     () => {
       SCENE.add(earth.mesh)
     }
