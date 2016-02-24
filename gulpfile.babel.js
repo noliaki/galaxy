@@ -50,7 +50,7 @@ gulp.task('jade', () => {
   return gulp.src([path.src + '/**/*.jade', '!' + path.src + '/**/_*'])
          .pipe(plumber())
          .pipe(jade({
-           pretty: true,
+           pretty: false,
            basedir: path.src
          }))
          .pipe(gulp.dest(path.build))
@@ -63,7 +63,9 @@ gulp.task('jade', () => {
 gulp.task('sass', () => {
   return gulp.src([path.src + '/**/*.scss'])
          .pipe(plumber())
-         .pipe(sass())
+         .pipe(sass({
+          outputStyle: 'compressed'
+         }))
          .on('error', (error) => {
            console.error('Error!', error.message)
          })

@@ -172,10 +172,10 @@ const render = function() {
   // CAMERA.lookAt(ORIGIN_POINT);
 
   STAR_POINT.rotation.x += 0.001;
-  STAR_POINT.rotation.y -= 0.0001;
-  STAR_POINT.rotation.z += 0.003;
+  STAR_POINT.rotation.y += 0.0001;
+  STAR_POINT.rotation.z -= 0.003;
 
-  console.log(CAMERA.position)
+  // console.log(CAMERA.position)
 
   controls.update();
 
@@ -187,7 +187,7 @@ const render = function() {
 
 document.addEventListener('DOMContentLoaded', (event) => {
 
-  CAMERA.position.z = -250;
+  CAMERA.position.z = 250;
 
   LIGHT.position.set(
     100,
@@ -213,6 +213,10 @@ document.addEventListener('DOMContentLoaded', (event) => {
   );
 
   controls = new TrackballControls(CAMERA);
+
+  controls.minDistance = 200;
+  controls.maxDistance = 1000;
+
 
 
   RENDERER.render(SCENE, CAMERA);
