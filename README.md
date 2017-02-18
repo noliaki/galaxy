@@ -1,5 +1,7 @@
 # for NEW SITE
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/noliaki/galaxy.svg)](https://greenkeeper.io/)
+
 ## 推奨環境
 
 ```sh
